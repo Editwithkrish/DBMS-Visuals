@@ -3,10 +3,16 @@
   "builds": [
     {
       "src": "movie-rental-system/package.json",
-      "use": "@vercel/next"
+      "use": "@vercel/next",
+      "config": {
+        "distDir": ".next"
+      }
     }
   ],
   "routes": [
+    {
+      "handle": "filesystem"
+    },
     {
       "src": "/(.*)",
       "dest": "/movie-rental-system/$1"
