@@ -1,99 +1,36 @@
-# 🎬 Online Movie Rental System
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## 📌 Overview
-With the rise of digital media and OTT platforms like Netflix and Prime Video, online movie rental systems have become popular.  
-This project is a **Database Management System (DBMS) case study** designed to manage customers, movies, rentals, payments, and subscription plans efficiently.
+## Getting Started
 
-The system ensures **data integrity, scalability, and security** while supporting both rental and subscription models.
+First, run the development server:
 
----
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## 🎯 Objectives
-- Manage **large movie catalogs**
-- Maintain **customer data** (personal details, addresses, subscriptions)
-- Track **rentals and payments**
-- Provide **flexible subscription plans**
-- Ensure **ACID compliance** and scalability
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
----
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 🗄️ Database Schema
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### Entities
-- **Customer**
-  - customer_id, date_of_birth, phone_numbers, name_id
-- **Name**
-  - first_name, middle_name, last_name
-- **Address**
-  - address_id, street, city, state, country, postal_code
-- **Movie**
-  - movie_id, title, year, director_id
-- **Subscription Plan**
-  - plan_id, name, price, billing_cycle
-- **Payment Method**
-  - payment_method_id, type, expiry_date, details_masked, billing_address_id
-- **Rental**
-  - rented_id (links Customer ↔ Movie)
-- **CustomerSubscription**
-  - Links Customer ↔ Subscription Plan
+## Learn More
 
----
+To learn more about Next.js, take a look at the following resources:
 
-## 🔗 Relationships
-- **Customer – Address** → 1 : M  
-- **Customer – Rental – Movie** → M : N  
-- **Customer – Subscription Plan** → M : N (via CustomerSubscription)  
-- **Customer – Payment Method** → 1 : M  
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
----
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## 🖼️ ER Diagram
-![ER Diagram](./dbms.jpg)
+## Deploy on Vercel
 
-*(The ER diagram shows entities, attributes, and relationships for the Online Movie Rental System.)*
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
----
-
-## ⚙️ DBMS Features
-- **Normalization**: Divides Name, Address, Payment, and Subscriptions into separate tables to avoid redundancy  
-- **Indexes**: Optimized searching for movies by title, year, and genre  
-- **ACID Transactions**:  
-  - **Atomicity** → rental & payment processed together  
-  - **Consistency** → ensures valid states  
-  - **Isolation** → concurrent rentals handled safely  
-  - **Durability** → rental/payment history preserved  
-- **Backup & Recovery**: Prevents data loss  
-
----
-
-## ✅ Advantages
-- Centralized and structured storage of movies, rentals, and payments  
-- Supports both **subscription model** and **individual rentals**  
-- Secure multi-user access  
-- Scalable for large numbers of customers  
-- Efficient queries for **recommendations & reporting**  
-
----
-
-## 📝 Example Queries
-
-```sql
--- Find all movies rented by a customer
-SELECT c.first_name, c.last_name, m.title, r.rented_id
-FROM Customer c
-JOIN Rental r ON c.customer_id = r.customer_id
-JOIN Movie m ON r.movie_id = m.movie_id
-WHERE c.customer_id = 101;
-
--- Show all active subscriptions with customer details
-SELECT c.first_name, c.last_name, s.name AS subscription, s.price, s.billing_cycle
-FROM CustomerSubscription cs
-JOIN Customer c ON cs.customer_id = c.customer_id
-JOIN SubscriptionPlan s ON cs.plan_id = s.plan_id;
-
--- Get total payments made by each customer
-SELECT c.first_name, c.last_name, SUM(p.amount) AS total_spent
-FROM PaymentMethod pm
-JOIN Customer c ON pm.customer_id = c.customer_id
-JOIN Payment p ON pm.payment_method_id = p.payment_method_id
-GROUP BY c.customer_id;
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
