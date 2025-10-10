@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "movie-rental-system/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/movie-rental-system/$1"
+    }
+  ]
+}
